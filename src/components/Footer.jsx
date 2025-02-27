@@ -11,7 +11,7 @@ function Footer() {
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center">
               <FaHeartbeat className="h-8 w-8 text-primary-400" />
-              <span className="ml-2 text-xl font-bold">MediConsult</span>
+              <span className="ml-2 text-xl font-bold">MediBay</span>
             </Link>
             <p className="mt-4 text-gray-300 text-sm">
               Providing quality healthcare services and medical consultations online.
