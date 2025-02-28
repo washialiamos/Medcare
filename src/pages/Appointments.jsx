@@ -370,7 +370,6 @@ function Appointments() {
               )}
             </>
           )}
-
         </div>
       </div>
     </div>

@@ -268,7 +268,6 @@ function FindDoctors() {
                       Dr. {doctor.full_name}
                     </h3>
                     <p className="text-primary-600">{doctor.specialty}</p>
-
                     <div className="mt-2 flex items-center">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (

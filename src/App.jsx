@@ -19,8 +19,11 @@ import BookAppointment from './pages/BookAppointment'
 
 // Protected Route Component
 import ProtectedRoute from './components/ProtectedRoute'
+<<<<<<< HEAD
 import NotFound from './pages/NotFound'
 import Profile from './pages/profile'
+=======
+>>>>>>> 4ae99abe2c1d6d88b34e80f65ed8b50bb8557b1b
 
 function App() {
   const { loading } = useAuth()
