@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase } from '../lib/supabase'
 import { format } from 'date-fns'
-import { FaCalendarAlt, FaUserMd, FaMapMarkerAlt, FaBell } from 'react-icons/fa'
+import { FaCalendarAlt, FaUserMd, FaMapMarkerAlt, FaBell, FaClock } from 'react-icons/fa'
 
 function Dashboard() {
   const { user } = useAuth()
@@ -139,7 +139,7 @@ function Dashboard() {
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
                     <img
-                      src={appointment.doctors?.profile_image || "https://via.placeholder.com/60?text=Dr"}
+                      src={"https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg"|| "https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg"}
                       alt={appointment.doctors?.full_name}
                       className="h-12 w-12 rounded-full object-cover"
                     />

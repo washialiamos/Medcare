@@ -8,7 +8,7 @@ function AuthLayout() {
         <div className="flex justify-center">
           <Link to="/" className="flex items-center text-primary-600">
             <FaHeartbeat className="h-8 w-8" />
-            <span className="ml-2 text-2xl font-bold">MediConsult</span>
+            <span className="ml-2 text-2xl font-bold">MedBay</span>
           </Link>
         </div>
       </div>

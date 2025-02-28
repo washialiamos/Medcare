@@ -1,109 +1,112 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import { useLocation } from '../contexts/LocationContext'
-import { FaSearch, FaMapMarkerAlt, FaStar, FaFilter } from 'react-icons/fa'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabase";
+import { useLocation } from "../contexts/LocationContext";
+import { FaSearch, FaMapMarkerAlt, FaStar, FaFilter } from "react-icons/fa";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 function FindDoctors() {
-  const [doctors, setDoctors] = useState([])
-  const [filteredDoctors, setFilteredDoctors] = useState([])
-  const [specialties, setSpecialties] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [viewMode, setViewMode] = useState('list') // 'list' or 'map'
+  const [doctors, setDoctors] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [viewMode, setViewMode] = useState("list"); // 'list' or 'map'
   const [filters, setFilters] = useState({
-    specialty: '',
-    searchTerm: '',
+    specialty: "",
+    searchTerm: "",
     maxDistance: 50, // in kilometers
-  })
-  
-  const { currentLocation, locationError, calculateDistance } = useLocation()
+  });
+
+  const { currentLocation, locationError, calculateDistance } = useLocation();
 
   useEffect(() => {
     async function fetchDoctors() {
       try {
         const { data: doctorsData, error: doctorsError } = await supabase
-          .from('doctors')
-          .select('*')
-          .order('full_name')
+          .from("doctors")
+          .select("*")
+          .order("full_name");
 
-        if (doctorsError) throw doctorsError
-        
+        if (doctorsError) throw doctorsError;
+
         // Get unique specialties for filter
-        const uniqueSpecialties = [...new Set(doctorsData.map(doctor => doctor.specialty))]
-        setSpecialties(uniqueSpecialties)
-        
-        setDoctors(doctorsData || [])
-        setFilteredDoctors(doctorsData || [])
+        const uniqueSpecialties = [
+          ...new Set(doctorsData.map((doctor) => doctor.specialty)),
+        ];
+        setSpecialties(uniqueSpecialties);
+
+        setDoctors(doctorsData || []);
+        setFilteredDoctors(doctorsData || []);
       } catch (error) {
-        console.error('Error fetching doctors:', error)
-        setError('Failed to load doctors')
+        console.error("Error fetching doctors:", error);
+        setError("Failed to load doctors");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchDoctors()
-  }, [])
+    fetchDoctors();
+  }, []);
 
   useEffect(() => {
     if (doctors.length > 0) {
-      let results = [...doctors]
-      
+      let results = [...doctors];
+
       // Filter by specialty
       if (filters.specialty) {
-        results = results.filter(doctor => 
-          doctor.specialty === filters.specialty
-        )
+        results = results.filter(
+          (doctor) => doctor.specialty === filters.specialty
+        );
       }
-      
+
       // Filter by search term
       if (filters.searchTerm) {
-        const term = filters.searchTerm.toLowerCase()
-        results = results.filter(doctor => 
-          doctor.full_name.toLowerCase().includes(term) || 
-          doctor.specialty.toLowerCase().includes(term) ||
-          (doctor.bio && doctor.bio.toLowerCase().includes(term))
-        )
+        const term = filters.searchTerm.toLowerCase();
+        results = results.filter(
+          (doctor) =>
+            doctor.full_name.toLowerCase().includes(term) ||
+            doctor.specialty.toLowerCase().includes(term) ||
+            (doctor.bio && doctor.bio.toLowerCase().includes(term))
+        );
       }
-      
+
       // Filter by distance if location is available
       if (currentLocation) {
-        results = results.filter(doctor => {
-          if (!doctor.latitude || !doctor.longitude) return true
-          
+        results = results.filter((doctor) => {
+          if (!doctor.latitude || !doctor.longitude) return true;
+
           const distance = calculateDistance(
             currentLocation.latitude,
             currentLocation.longitude,
             doctor.latitude,
             doctor.longitude
-          )
-          
-          doctor.distance = distance // Add distance property
-          return distance <= filters.maxDistance
-        })
-        
+          );
+
+          doctor.distance = distance; // Add distance property
+          return distance <= filters.maxDistance;
+        });
+
         // Sort by distance
-        results.sort((a, b) => (a.distance || 0) - (b.distance || 0))
+        results.sort((a, b) => (a.distance || 0) - (b.distance || 0));
       }
-      
-      setFilteredDoctors(results)
+
+      setFilteredDoctors(results);
     }
-  }, [filters, doctors, currentLocation, calculateDistance])
+  }, [filters, doctors, currentLocation, calculateDistance]);
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target
-    setFilters(prev => ({
+    const { name, value } = e.target;
+    setFilters((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const handleSearchSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // Filters are already applied via useEffect
-  }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -115,9 +118,15 @@ function FindDoctors() {
       </div>
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="grid grid-cols-1 md:grid-cols-4 gap-4"
+        >
           <div className="md:col-span-2">
-            <label htmlFor="searchTerm" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="searchTerm"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Search
             </label>
             <div className="relative">
@@ -135,9 +144,12 @@ function FindDoctors() {
               />
             </div>
           </div>
-          
+
           <div>
-            <label htmlFor="specialty" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="specialty"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Specialty
             </label>
             <select
@@ -148,16 +160,19 @@ function FindDoctors() {
               className="input"
             >
               <option value="">All Specialties</option>
-              {specialties.map(specialty => (
+              {specialties.map((specialty) => (
                 <option key={specialty} value={specialty}>
                   {specialty}
                 </option>
               ))}
             </select>
           </div>
-          
+
           <div>
-            <label htmlFor="maxDistance" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="maxDistance"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Distance (km)
             </label>
             <select
@@ -184,24 +199,24 @@ function FindDoctors() {
             {filteredDoctors.length} doctors found
           </p>
         </div>
-        
+
         <div className="flex space-x-2">
           <button
-            onClick={() => setViewMode('list')}
+            onClick={() => setViewMode("list")}
             className={`px-4 py-2 rounded-md ${
-              viewMode === 'list' 
-                ? 'bg-primary-600 text-white' 
-                : 'bg-gray-200 text-gray-700'
+              viewMode === "list"
+                ? "bg-primary-600 text-white"
+                : "bg-gray-200 text-gray-700"
             }`}
           >
             List View
           </button>
           <button
-            onClick={() => setViewMode('map')}
+            onClick={() => setViewMode("map")}
             className={`px-4 py-2 rounded-md ${
-              viewMode === 'map' 
-                ? 'bg-primary-600 text-white' 
-                : 'bg-gray-200 text-gray-700'
+              viewMode === "map"
+                ? "bg-primary-600 text-white"
+                : "bg-gray-200 text-gray-700"
             }`}
           >
             Map View
@@ -219,22 +234,32 @@ function FindDoctors() {
         </div>
       ) : filteredDoctors.length === 0 ? (
         <div className="bg-gray-50 rounded-lg p-8 text-center">
-          <p className="text-gray-600 mb-4">No doctors found matching your criteria.</p>
+          <p className="text-gray-600 mb-4">
+            No doctors found matching your criteria.
+          </p>
           <button
-            onClick={() => setFilters({ specialty: '', searchTerm: '', maxDistance: 50 })}
+            onClick={() =>
+              setFilters({ specialty: "", searchTerm: "", maxDistance: 50 })
+            }
             className="btn btn-primary"
           >
             Clear Filters
           </button>
         </div>
-      ) : viewMode === 'list' ? (
+      ) : viewMode === "list" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredDoctors.map(doctor => (
-            <div key={doctor.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+          {filteredDoctors.map((doctor) => (
+            <div
+              key={doctor.id}
+              className="bg-white rounded-lg shadow-md overflow-hidden"
+            >
               <div className="p-6">
                 <div className="flex items-start">
                   <img
-                    src={doctor.profile_image || "https://via.placeholder.com/80?text=Dr"}
+                    src={
+                      "https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg" ||
+                      doctor.profile_image
+                    }
                     alt={doctor.full_name}
                     className="h-16 w-16 rounded-full object-cover"
                   />
@@ -243,7 +268,7 @@ function FindDoctors() {
                       Dr. {doctor.full_name}
                     </h3>
                     <p className="text-primary-600">{doctor.specialty}</p>
-                    
+
                     <div className="mt-2 flex items-center">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (
@@ -251,8 +276,8 @@ function FindDoctors() {
                             key={i}
                             className={`h-4 w-4 ${
                               i < doctor.rating
-                                ? 'text-yellow-400'
-                                : 'text-gray-300'
+                                ? "text-yellow-400"
+                                : "text-gray-300"
                             }`}
                           />
                         ))}
@@ -261,20 +286,22 @@ function FindDoctors() {
                         ({doctor.reviews_count || 0} reviews)
                       </span>
                     </div>
-                    
+
                     {currentLocation && doctor.latitude && doctor.longitude && (
                       <div className="mt-2 flex items-center text-sm text-gray-500">
                         <FaMapMarkerAlt className="mr-1.5 h-4 w-4 text-gray-400" />
-                        {doctor.distance ? `${doctor.distance.toFixed(1)} km away` : 'Distance unknown'}
+                        {doctor.distance
+                          ? `${doctor.distance.toFixed(1)} km away`
+                          : "Distance unknown"}
                       </div>
                     )}
                   </div>
                 </div>
-                
+
                 <p className="mt-4 text-gray-600 line-clamp-3">
-                  {doctor.bio || 'No biography available.'}
+                  {doctor.bio || "No biography available."}
                 </p>
-                
+
                 <div className="mt-6 flex justify-between">
                   <Link
                     to={`/doctor/${doctor.id}`}
@@ -294,38 +321,45 @@ function FindDoctors() {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: '600px' }}>
+        <div
+          className="bg-white rounded-lg shadow-md overflow-hidden"
+          style={{ height: "600px" }}
+        >
           {currentLocation ? (
             <MapContainer
               center={[currentLocation.latitude, currentLocation.longitude]}
               zoom={12}
-              style={{ height: '100%', width: '100%' }}
+              style={{ height: "100%", width: "100%" }}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              
+
               {/* Current location marker */}
-              <Marker position={[currentLocation.latitude, currentLocation.longitude]}>
-                <Popup>
-                  Your current location
-                </Popup>
+              <Marker
+                position={[currentLocation.latitude, currentLocation.longitude]}
+              >
+                <Popup>Your current location</Popup>
               </Marker>
-              
+
               {/* Doctor markers */}
-              {filteredDoctors.map(doctor => {
-                if (!doctor.latitude || !doctor.longitude) return null
-                
+              {filteredDoctors.map((doctor) => {
+                if (!doctor.latitude || !doctor.longitude) return null;
+
                 return (
-                  <Marker 
-                    key={doctor.id} 
+                  <Marker
+                    key={doctor.id}
                     position={[doctor.latitude, doctor.longitude]}
                   >
                     <Popup>
                       <div className="text-center">
-                        <h3 className="font-semibold">Dr. {doctor.full_name}</h3>
-                        <p className="text-sm text-primary-600">{doctor.specialty}</p>
+                        <h3 className="font-semibold">
+                          Dr. {doctor.full_name}
+                        </h3>
+                        <p className="text-sm text-primary-600">
+                          {doctor.specialty}
+                        </p>
                         {doctor.distance && (
                           <p className="text-xs text-gray-500 mt-1">
                             {doctor.distance.toFixed(1)} km away
@@ -340,7 +374,7 @@ function FindDoctors() {
                       </div>
                     </Popup>
                   </Marker>
-                )
+                );
               })}
             </MapContainer>
           ) : (
@@ -351,7 +385,8 @@ function FindDoctors() {
                   Location Access Required
                 </h3>
                 <p className="text-gray-600">
-                  {locationError || 'Please enable location services to view doctors on the map.'}
+                  {locationError ||
+                    "Please enable location services to view doctors on the map."}
                 </p>
               </div>
             </div>
@@ -359,7 +394,7 @@ function FindDoctors() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default FindDoctors
+export default FindDoctors;

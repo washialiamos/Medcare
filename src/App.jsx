@@ -19,6 +19,8 @@ import BookAppointment from './pages/BookAppointment'
 
 // Protected Route Component
 import ProtectedRoute from './components/ProtectedRoute'
+import NotFound from './pages/NotFound'
+import Profile from './pages/profile'
 
 function App() {
   const { loading } = useAuth()
@@ -63,15 +65,15 @@ function App() {
             <BookAppointment />
           </ProtectedRoute>
         } />
-        {/* <Route path="/profile" element={
+        <Route path="/profile" element={
           <ProtectedRoute>
             <Profile />
           </ProtectedRoute>
-        } /> */}
+        } />
       </Route>
 
       {/* 404 route */}
-      {/* <Route path="*" element={<NotFound />} /> */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

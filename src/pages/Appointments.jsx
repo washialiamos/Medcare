@@ -160,7 +160,7 @@ function Appointments() {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
                             <img
-                              src={appointment.doctors?.profile_image || "https://via.placeholder.com/60?text=Dr"}
+                              src={"https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg"|| "https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg"}
                               alt={appointment.doctors?.full_name}
                               className="h-12 w-12 rounded-full object-cover"
                             />
@@ -300,7 +300,7 @@ function Appointments() {
                       <div className="p-6">
                         <div className="flex items-center">
                           <img
-                            src={appointment.doctors?.profile_image || "https://via.placeholder.com/60?text=Dr"}
+                            src={"https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg"|| "https://as1.ftcdn.net/v2/jpg/02/38/16/04/1000_F_238160486_6COQd3Sotf3ecOP3Qwsy7zB5WlUOHVrE.jpg"}
                             alt={appointment.doctors?.full_name}
                             className="h-12 w-12 rounded-full object-cover"
                           />
@@ -370,6 +370,7 @@ function Appointments() {
               )}
             </>
           )}
+
         </div>
       </div>
     </div>
