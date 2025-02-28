@@ -21,6 +21,7 @@ import BookAppointment from './pages/BookAppointment'
 import ProtectedRoute from './components/ProtectedRoute'
 import NotFound from './pages/NotFound'
 import Profile from './pages/profile'
+import Chat from './pages/Chat'
 
 function App() {
   const { loading } = useAuth()
@@ -63,6 +64,11 @@ function App() {
         <Route path="/book-appointment/:doctorId" element={
           <ProtectedRoute>
             <BookAppointment />
+          </ProtectedRoute>
+        } />
+        <Route path="/chat" element={
+          <ProtectedRoute>
+            <Chat/>
           </ProtectedRoute>
         } />
         <Route path="/profile" element={

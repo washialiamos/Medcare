@@ -361,7 +361,7 @@ function BookAppointment() {
                   />
                   <div className="ml-3">
                     <h3 className="text-lg font-medium text-gray-900">
-                      Dr. {doctor?.full_name}
+                        {doctor?.full_name}
                     </h3>
                     <p className="text-primary-600">{doctor?.specialty}</p>
                   </div>

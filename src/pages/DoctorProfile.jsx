@@ -129,7 +129,7 @@ function DoctorProfile() {
             <div className="mt-4 md:mt-0 md:ml-6">
               <div className="flex flex-wrap items-center">
                 <h1 className="text-3xl font-bold text-gray-900">
-                  Dr. {doctor.full_name}
+                    {doctor.full_name}
                 </h1>
                 {doctor.is_verified && (
                   <span className="ml-3 bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
@@ -339,7 +339,7 @@ function DoctorProfile() {
                     />
                     <Marker position={[doctor.latitude, doctor.longitude]}>
                       <Popup>
-                        Dr. {doctor.full_name}
+                          {doctor.full_name}
                       </Popup>
                     </Marker>
                   </MapContainer>

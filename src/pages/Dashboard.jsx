@@ -146,7 +146,7 @@ function Dashboard() {
                   </div>
                   <div className="ml-4 flex-1">
                     <h3 className="text-lg font-semibold text-gray-900">
-                      Dr. {appointment.doctors?.full_name}
+                        {appointment.doctors?.full_name}
                     </h3>
                     <p className="text-gray-600">{appointment.doctors?.specialty}</p>
                     <div className="mt-2 flex items-center text-sm text-gray-500">

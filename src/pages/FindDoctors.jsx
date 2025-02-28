@@ -82,6 +82,7 @@ function FindDoctors() {
             doctor.latitude,
             doctor.longitude
           );
+          
 
           doctor.distance = distance; // Add distance property
           return distance <= filters.maxDistance;
@@ -193,6 +194,10 @@ function FindDoctors() {
         </form>
       </div>
 
+      <div className="flex justify-center ">
+        <Link to={"/chat"} className="bg-primary-600 p-6 rounded-lg text-white cursor-pointer">Not sure of the speciality of the doctor</Link>
+      </div>
+
       <div className="mb-6 flex justify-between items-center">
         <div>
           <p className="text-gray-600">
@@ -265,7 +270,7 @@ function FindDoctors() {
                   />
                   <div className="ml-4">
                     <h3 className="text-lg font-semibold text-gray-900">
-                      Dr. {doctor.full_name}
+                        {doctor.full_name}
                     </h3>
                     <p className="text-primary-600">{doctor.specialty}</p>
                     <div className="mt-2 flex items-center">
@@ -354,7 +359,7 @@ function FindDoctors() {
                     <Popup>
                       <div className="text-center">
                         <h3 className="font-semibold">
-                          Dr. {doctor.full_name}
+                            {doctor.full_name}
                         </h3>
                         <p className="text-sm text-primary-600">
                           {doctor.specialty}

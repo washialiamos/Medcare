@@ -166,7 +166,7 @@ function Appointments() {
                             />
                             <div className="ml-4">
                               <h3 className="text-lg font-medium text-gray-900">
-                                Dr. {appointment.doctors?.full_name}
+                                  {appointment.doctors?.full_name}
                               </h3>
                               <p className="text-primary-600">{appointment.doctors?.specialty}</p>
                             </div>
@@ -306,7 +306,7 @@ function Appointments() {
                           />
                           <div className="ml-4">
                             <h3 className="text-lg font-medium text-gray-900">
-                              Dr. {appointment.doctors?.full_name}
+                                {appointment.doctors?.full_name}
                             </h3>
                             <p className="text-primary-600">{appointment.doctors?.specialty}</p>
                           </div>
