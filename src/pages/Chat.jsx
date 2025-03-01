@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, User, UserCircle, Menu, X } from "lucide-react";
-import { generateContent } from "../lib/gemini";
+// import { generateContent } from "../lib/gemini";
+import { generateContent } from "../lib/gem";
 import { useLocation } from "../contexts/LocationContext";
 import { supabase } from "../lib/supabase";
 
@@ -47,8 +48,8 @@ function Chat() {
     };
     modMessage = [...modMessage, newModMess];
     console.log("new mode mess", newModMess);
-    console.log("mod ", modMessage)
-    setModelMessages([...modelMessages,newModMess])
+    console.log("mod ", modMessage);
+    setModelMessages([...modelMessages, newModMess]);
 
     // setModelMessages((prev) => [...prev, newModMess]);
     setInputValue("");
@@ -57,11 +58,10 @@ function Chat() {
     const { data: doctors, error: doctorsError } = await supabase
       .from("doctors")
       .select("*");
-    console.log("doctors", JSON.stringify(doctors, null, 2));
-    console.log("loc", currentLocation)
     const rep = await generateContent(
       JSON.stringify(doctors, null, 2),
       modelMessages,
+      newModMess.parts[0].text,
       currentLocation
     );
     const newRepMess = {
