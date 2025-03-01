@@ -416,7 +416,7 @@ function BookAppointment() {
                   
                   <div className="border-t border-gray-200 mt-3 pt-3 flex justify-between">
                     <span className="font-medium">Total</span>
-                    <span className="font-bold">${(doctor?.consultation_fee || 0) + 5}.00</span>
+                    <span className="font-bold">Ksh{(doctor?.consultation_fee || 0) + 200}.00</span>
                   </div>
                 </div>
               </div>
