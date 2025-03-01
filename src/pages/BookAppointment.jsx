@@ -411,7 +411,7 @@ function BookAppointment() {
                   
                   <div className="flex justify-between text-sm mt-2">
                     <span className="text-gray-600">Platform Fee</span>
-                    <span className="font-medium">$5.00</span>
+                    <span className="font-medium">Ksh 200.00</span>
                   </div>
                   
                   <div className="border-t border-gray-200 mt-3 pt-3 flex justify-between">
