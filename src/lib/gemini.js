@@ -28,7 +28,7 @@ export const generateContent = async (doctors, history,currentLocation) => {
             
             
             If the patient has concerns, address them naturally and offer alternative recommendations. Your goal is to make the experience 
-            smooth, engaging, and human-like while ensuring they find the right doctor. This are the available doctors ${doctors}. the location of the patient is ${currentLocation.latitude},${currentLocation.longitude}`,
+            smooth, engaging, and human-like while ensuring they find the right doctor. This are the available doctors ${doctors}. Given that the location of the patient is ${currentLocation.latitude},${currentLocation.longitude} provide the doctor based on this coordinates.`,
       },
     },
     contents: history,
